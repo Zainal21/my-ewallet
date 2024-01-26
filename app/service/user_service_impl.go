@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/Zainal21/go-bone/app/repositories"
+	"github.com/Zainal21/my-ewallet/app/repositories"
 )
 
 type userServiceImpl struct {

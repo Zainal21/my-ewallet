@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Zainal21/go-bone/pkg/config"
-	"github.com/Zainal21/go-bone/pkg/logger"
+	"github.com/Zainal21/my-ewallet/pkg/config"
+	"github.com/Zainal21/my-ewallet/pkg/logger"
 	"github.com/redis/go-redis/v9"
 )
 

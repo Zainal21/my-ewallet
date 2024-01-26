@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strings"
 
-	cryptoservice "github.com/Zainal21/go-bone/app/utils/crypto"
-	"github.com/Zainal21/go-bone/app/utils/random"
+	cryptoservice "github.com/Zainal21/my-ewallet/app/utils/crypto"
+	"github.com/Zainal21/my-ewallet/app/utils/random"
 )
 
 type TokenI interface {

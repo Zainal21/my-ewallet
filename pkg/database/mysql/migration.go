@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Zainal21/go-bone/pkg/config"
+	"github.com/Zainal21/my-ewallet/pkg/config"
 	"github.com/pressly/goose/v3"
 )
 

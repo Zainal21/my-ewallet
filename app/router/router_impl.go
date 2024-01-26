@@ -1,19 +1,19 @@
 package router
 
 import (
-	"github.com/Zainal21/go-bone/app/appctx"
-	"github.com/Zainal21/go-bone/app/bootstrap"
-	"github.com/Zainal21/go-bone/app/controller"
-	"github.com/Zainal21/go-bone/app/controller/auth"
-	"github.com/Zainal21/go-bone/app/controller/contract"
-	"github.com/Zainal21/go-bone/app/controller/user"
-	"github.com/Zainal21/go-bone/app/handler"
-	"github.com/Zainal21/go-bone/app/middleware"
-	"github.com/Zainal21/go-bone/app/repositories"
-	"github.com/Zainal21/go-bone/app/service"
-	cryptoservice "github.com/Zainal21/go-bone/app/utils/crypto"
-	"github.com/Zainal21/go-bone/app/utils/sanctum"
-	"github.com/Zainal21/go-bone/pkg/config"
+	"github.com/Zainal21/my-ewallet/app/appctx"
+	"github.com/Zainal21/my-ewallet/app/bootstrap"
+	"github.com/Zainal21/my-ewallet/app/controller"
+	"github.com/Zainal21/my-ewallet/app/controller/auth"
+	"github.com/Zainal21/my-ewallet/app/controller/contract"
+	"github.com/Zainal21/my-ewallet/app/controller/user"
+	"github.com/Zainal21/my-ewallet/app/handler"
+	"github.com/Zainal21/my-ewallet/app/middleware"
+	"github.com/Zainal21/my-ewallet/app/repositories"
+	"github.com/Zainal21/my-ewallet/app/service"
+	cryptoservice "github.com/Zainal21/my-ewallet/app/utils/crypto"
+	"github.com/Zainal21/my-ewallet/app/utils/sanctum"
+	"github.com/Zainal21/my-ewallet/pkg/config"
 
 	"github.com/gofiber/fiber/v2"
 )

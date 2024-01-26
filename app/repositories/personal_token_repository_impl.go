@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Zainal21/go-bone/app/dtos"
-	"github.com/Zainal21/go-bone/app/entity"
-	"github.com/Zainal21/go-bone/app/utils/query"
-	"github.com/Zainal21/go-bone/app/utils/sanctum"
-	"github.com/Zainal21/go-bone/pkg/database/mysql"
+	"github.com/Zainal21/my-ewallet/app/dtos"
+	"github.com/Zainal21/my-ewallet/app/entity"
+	"github.com/Zainal21/my-ewallet/app/utils/query"
+	"github.com/Zainal21/my-ewallet/app/utils/sanctum"
+	"github.com/Zainal21/my-ewallet/pkg/database/mysql"
 )
 
 type personalTokenImpl struct {

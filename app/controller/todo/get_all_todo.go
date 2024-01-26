@@ -3,9 +3,9 @@ package todo
 import (
 	"encoding/json"
 
-	"github.com/Zainal21/go-bone/app/appctx"
-	"github.com/Zainal21/go-bone/app/controller/contract"
-	"github.com/Zainal21/go-bone/app/provider"
+	"github.com/Zainal21/my-ewallet/app/appctx"
+	"github.com/Zainal21/my-ewallet/app/controller/contract"
+	"github.com/Zainal21/my-ewallet/app/provider"
 	"github.com/gofiber/fiber/v2"
 )
 

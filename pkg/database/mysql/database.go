@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Zainal21/go-bone/pkg/logger"
+	"github.com/Zainal21/my-ewallet/pkg/logger"
 
-	"github.com/Zainal21/go-bone/pkg/config"
+	"github.com/Zainal21/my-ewallet/pkg/config"
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )

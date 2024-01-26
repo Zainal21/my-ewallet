@@ -1,7 +1,7 @@
 package contract
 
 import (
-	"github.com/Zainal21/go-bone/app/appctx"
+	"github.com/Zainal21/my-ewallet/app/appctx"
 	"github.com/rabbitmq/amqp091-go"
 )
 

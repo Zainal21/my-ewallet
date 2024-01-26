@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/Zainal21/go-bone/app/appctx"
-	"github.com/Zainal21/go-bone/app/controller/contract"
+	"github.com/Zainal21/my-ewallet/app/appctx"
+	"github.com/Zainal21/my-ewallet/app/controller/contract"
 	"github.com/gofiber/fiber/v2"
 )
 

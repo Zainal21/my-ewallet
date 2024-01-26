@@ -1,7 +1,7 @@
 package appctx
 
 import (
-	"github.com/Zainal21/go-bone/pkg/config"
+	"github.com/Zainal21/my-ewallet/pkg/config"
 	"github.com/gofiber/fiber/v2"
 )
 

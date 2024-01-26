@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/Zainal21/go-bone/app/dtos"
-	"github.com/Zainal21/go-bone/app/entity"
+	"github.com/Zainal21/my-ewallet/app/dtos"
+	"github.com/Zainal21/my-ewallet/app/entity"
 )
 
 type UserRepository interface {

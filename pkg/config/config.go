@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Zainal21/go-bone/pkg/logger"
+	"github.com/Zainal21/my-ewallet/pkg/logger"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/gofiber/fiber/v2"

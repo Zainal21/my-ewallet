@@ -3,7 +3,7 @@ package provider
 import (
 	"context"
 
-	"github.com/Zainal21/go-bone/pkg/httpclient"
+	"github.com/Zainal21/my-ewallet/pkg/httpclient"
 	"github.com/sony/gobreaker"
 )
 

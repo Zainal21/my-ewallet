@@ -1,15 +1,15 @@
 package auth
 
 import (
-	"github.com/Zainal21/go-bone/app/appctx"
-	"github.com/Zainal21/go-bone/app/consts"
-	"github.com/Zainal21/go-bone/app/controller/contract"
-	"github.com/Zainal21/go-bone/app/dtos"
-	"github.com/Zainal21/go-bone/app/helpers"
-	"github.com/Zainal21/go-bone/app/repositories"
-	"github.com/Zainal21/go-bone/app/service"
-	"github.com/Zainal21/go-bone/app/utils/golvalidator"
-	"github.com/Zainal21/go-bone/pkg/config"
+	"github.com/Zainal21/my-ewallet/app/appctx"
+	"github.com/Zainal21/my-ewallet/app/consts"
+	"github.com/Zainal21/my-ewallet/app/controller/contract"
+	"github.com/Zainal21/my-ewallet/app/dtos"
+	"github.com/Zainal21/my-ewallet/app/helpers"
+	"github.com/Zainal21/my-ewallet/app/repositories"
+	"github.com/Zainal21/my-ewallet/app/service"
+	"github.com/Zainal21/my-ewallet/app/utils/golvalidator"
+	"github.com/Zainal21/my-ewallet/pkg/config"
 	"github.com/gofiber/fiber/v2"
 )
 

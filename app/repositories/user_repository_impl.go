@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/Zainal21/go-bone/app/entity"
-	"github.com/Zainal21/go-bone/app/utils/query"
-	"github.com/Zainal21/go-bone/pkg/database/mysql"
+	"github.com/Zainal21/my-ewallet/app/entity"
+	"github.com/Zainal21/my-ewallet/app/utils/query"
+	"github.com/Zainal21/my-ewallet/pkg/database/mysql"
 )
 
 type userRepositoryImpl struct {

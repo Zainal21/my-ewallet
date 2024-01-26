@@ -1,9 +1,9 @@
 package bootstrap
 
 import (
-	"github.com/Zainal21/go-bone/pkg/config"
-	"github.com/Zainal21/go-bone/pkg/logger"
-	"github.com/Zainal21/go-bone/pkg/util"
+	"github.com/Zainal21/my-ewallet/pkg/config"
+	"github.com/Zainal21/my-ewallet/pkg/logger"
+	"github.com/Zainal21/my-ewallet/pkg/util"
 	"github.com/sirupsen/logrus"
 )
 

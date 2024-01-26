@@ -6,11 +6,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/Zainal21/go-bone/database/seeders"
-	"github.com/Zainal21/go-bone/pkg/database/mysql"
+	"github.com/Zainal21/my-ewallet/database/seeders"
+	"github.com/Zainal21/my-ewallet/pkg/database/mysql"
 
-	"github.com/Zainal21/go-bone/pkg/config"
-	"github.com/Zainal21/go-bone/pkg/logger"
+	"github.com/Zainal21/my-ewallet/pkg/config"
+	"github.com/Zainal21/my-ewallet/pkg/logger"
 )
 
 func MigrateDatabase() {

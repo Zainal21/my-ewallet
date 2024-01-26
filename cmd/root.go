@@ -3,8 +3,8 @@ package cmd
 import (
 	"log"
 
-	"github.com/Zainal21/go-bone/cmd/http"
-	"github.com/Zainal21/go-bone/cmd/migration"
+	"github.com/Zainal21/my-ewallet/cmd/http"
+	"github.com/Zainal21/my-ewallet/cmd/migration"
 	"github.com/spf13/cobra"
 )
 

@@ -7,9 +7,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/Zainal21/go-bone/pkg/util"
+	"github.com/Zainal21/my-ewallet/pkg/util"
 	"github.com/sirupsen/logrus"
-	// "github.com/Zainal21/go-bone/pkg/util"
+	// "github.com/Zainal21/my-ewallet/pkg/util"
 )
 
 const (
@@ -120,7 +120,7 @@ func getCaller() *runtime.Frame {
 		minimumCallerDepth = knownLogrusFrames
 	})
 
-	lpkg := `github.com/Zainal21/go-bone/pkg/logger`
+	lpkg := `github.com/Zainal21/my-ewallet/pkg/logger`
 
 	// Restrict the lookback frames to avoid runaway lookups
 	pcs := make([]uintptr, maximumCallerDepth)

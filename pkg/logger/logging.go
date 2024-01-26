@@ -7,7 +7,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/Zainal21/go-bone/pkg/util"
+	"github.com/Zainal21/my-ewallet/pkg/util"
 )
 
 var (

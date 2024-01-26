@@ -15,13 +15,5 @@ install:
 start-http:
 	@go run main.go http
 
-
-start-rabbit-mq:
-	@go run main.go rabbit
-
-	
-start-rabbit-mq:
-	@go run main.go rabbit
-
 migrate:
 	@go run main.go db:migrate

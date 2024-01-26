@@ -6,8 +6,8 @@ import (
 	"errors"
 	"io/ioutil"
 
-	"github.com/Zainal21/go-bone/app/consts"
-	"github.com/Zainal21/go-bone/pkg/util"
+	"github.com/Zainal21/my-ewallet/app/consts"
+	"github.com/Zainal21/my-ewallet/pkg/util"
 )
 
 // DatabaseConfig holds the DatabaseConfig configuration
