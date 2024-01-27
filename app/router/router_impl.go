@@ -70,19 +70,52 @@ func (rtr *router) Route() {
 	signIn := auth.NewSignIn(userSvc, tokenRepo, rtr.cfg)
 
 	health := controller.NewGetHealth()
-	privateV1 := rtr.fiber.Group("/api/private/v1")
+	publicApi := rtr.fiber.Group("/api/v1")
 
 	rtr.fiber.Get("/ping", rtr.handle(
 		handler.HttpRequest,
 		health,
 	))
-
-	privateV1.Post("/sign-in", rtr.handle(
+	// authentication routes
+	publicApi.Post("/auth/login", rtr.handle(
 		handler.HttpRequest,
 		signIn,
 	))
 
-	privateV1.Get("/users", rtr.handle(
+	publicApi.Post("/auth/register", rtr.handle(
+		handler.HttpRequest,
+		signIn,
+	))
+
+	publicApi.Post("/auth/logout", rtr.handle(
+		handler.HttpRequest,
+		signIn,
+	))
+	// get balance
+	publicApi.Get("/balance", rtr.handle(
+		handler.HttpRequest,
+		signIn,
+	))
+
+	// top up deposit
+	publicApi.Post("/top-up-deposit", rtr.handle(
+		handler.HttpRequest,
+		signIn,
+	))
+
+	// transaction history
+	publicApi.Get("/transactions", rtr.handle(
+		handler.HttpRequest,
+		signIn,
+	))
+
+	//	transaction/transfer or payment
+	publicApi.Get("/transactions", rtr.handle(
+		handler.HttpRequest,
+		signIn,
+	))
+	// example routes
+	publicApi.Get("/users", rtr.handle(
 		handler.HttpRequest,
 		getAllUser,
 		//middleware

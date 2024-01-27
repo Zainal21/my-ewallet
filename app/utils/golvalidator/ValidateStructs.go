@@ -28,15 +28,8 @@ func ValidateStructs(s interface{}, lang string) map[string][]string {
 }
 
 func translateFieldName(fieldName string, lang string) string {
-	var translations = map[string]string{
-		"username":                "Username",
-		"email":                   "Email",
-		"Password":                "Kata Sandi",
-		"oldPassword":             "Kata Sandi lama",
-		"newPassword":             "Kata Sandi baru",
-		"newPasswordConfirmation": "Konfirmasi kata sandi baru",
-		"name":                    "Nama",
-	}
+	// write your translate here
+	var translations = map[string]string{}
 
 	if translated, ok := translations[fieldName]; ok {
 		return translated

@@ -9,7 +9,7 @@ import (
 )
 
 type UserRepository interface {
-	FindById(ctx context.Context, id string) (*entity.User, error)
+	GetUserByFieldName(ctx context.Context, fieldName string, value string) (*entity.User, error)
 	BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error)
 }
 

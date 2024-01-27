@@ -13,6 +13,48 @@ type userRepositoryImpl struct {
 	db mysql.Adapter
 }
 
+// GetUserByFieldName implements UserRepository.
+func (r *userRepositoryImpl) GetUserByFieldName(ctx context.Context, fieldName string, value string) (*entity.User, error) {
+	_query := query.SelectQuery(
+		"users",
+		[]string{
+			"id",
+			"name",
+			"email",
+			"password",
+			"phone_number",
+			"created_at",
+			"updated_at",
+		},
+		fieldName+" = ?",
+		1,
+		0,
+	)
+
+	// _query := "SELECT id, name, email, password, phone_number, created_at, updated_at FROM users WHERE email = ? LIMIT 1"
+
+	var result entity.User
+
+	row := r.db.QueryRowX(ctx, _query, value)
+
+	err := row.Scan(
+		&result.Id,
+		&result.Name,
+		&result.Email,
+		&result.Password,
+		&result.PhoneNumber,
+		&result.CreatedAt,
+		&result.UpdatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &result, nil
+
+}
+
 // FindById implements UserRepository.
 func (r userRepositoryImpl) FindById(ctx context.Context, id string) (*entity.User, error) {
 	_query := query.SelectQuery(
@@ -22,8 +64,7 @@ func (r userRepositoryImpl) FindById(ctx context.Context, id string) (*entity.Us
 			"name",
 			"email",
 			"password",
-			"status",
-			"role",
+			"phone_number",
 			"created_at",
 			"updated_at",
 		},
@@ -41,8 +82,7 @@ func (r userRepositoryImpl) FindById(ctx context.Context, id string) (*entity.Us
 		&result.Name,
 		&result.Email,
 		&result.Password,
-		&result.Status,
-		&result.Role,
+		&result.PhoneNumber,
 		&result.CreatedAt,
 		&result.UpdatedAt,
 	)

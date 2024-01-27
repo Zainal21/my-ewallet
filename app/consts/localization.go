@@ -1,5 +1,5 @@
 package consts
 
 const (
-	Localization = `id`
+	Localization = `en`
 )

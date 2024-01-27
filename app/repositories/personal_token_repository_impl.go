@@ -98,7 +98,7 @@ func (p *personalTokenImpl) Verify(ctx context.Context, token string) (*entity.U
 		return nil, errors.New("token expired")
 	}
 
-	user, err := p.userRepository.FindById(ctx, personalAccessToken.UserId)
+	user, err := p.userRepository.GetUserByFieldName(ctx, "id", personalAccessToken.UserId)
 
 	if err != nil {
 		return nil, err
