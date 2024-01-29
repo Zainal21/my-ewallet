@@ -23,7 +23,7 @@ There is some dependencies that we used in this skeleton:
 - Top Up Deposit
 - Transfer Deposit
 - Get History Transaction
-- Integrated with Payment Gateway Service
+- Integrated with Payment Gateway Service (Coming Soon)
 - Consume API Service With NextJS (Coming Soon)
 
 ## Requirement
