@@ -1,8 +1,8 @@
-# Go Bone Boilerplate
+# E Wallet
 
 ## Getting started
 
-This is built on top of [Go Fiber](https://docs.gofiber.io) Golang Framework.
+Simple E-Wallet API Service built with [Go Fiber](https://docs.gofiber.io) Golang Framework. (Cooming soon integrated with Payment Gateway Service)
 
 ## Dependencies
 
@@ -28,6 +28,14 @@ install required dependencies
 
 ```bash
 make install
+```
+
+### Environment Variable
+
+copy or replace .env.example to .env and change based on your .env
+
+```bash
+cp .env.example .env
 ```
 
 ### Run Service
@@ -76,29 +84,12 @@ migration status
 go run main.go db:migrate status
 ```
 
-create migration table
-
-```bash
-go run main.go db:migrate create {table-name} sql
-
-# example
-go run main.go db:migrate create users sql
-```
-
-to show all command
-
-```bash
-go run main.go db:migrate
-```
-
 run seeder
 
 ```bash
 go run main.go db:seed
-
-# example
-go run main.go db:seed
-
-# example spesific function
-go run main.go db:seed {func-seeder-name}
 ```
+
+## API Documentation
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/9050639-e2b8fc04-7da9-4b58-9112-f3c42d8189e9?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D9050639-e2b8fc04-7da9-4b58-9112-f3c42d8189e9%26entityType%3Dcollection%26workspaceId%3Ddad9b418-12e0-4f61-8247-1f6a07b6151b)
