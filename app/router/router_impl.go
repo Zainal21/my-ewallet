@@ -6,6 +6,7 @@ import (
 	"github.com/Zainal21/my-ewallet/app/controller"
 	"github.com/Zainal21/my-ewallet/app/controller/auth"
 	"github.com/Zainal21/my-ewallet/app/controller/contract"
+	"github.com/Zainal21/my-ewallet/app/controller/transaction"
 	"github.com/Zainal21/my-ewallet/app/controller/user"
 	"github.com/Zainal21/my-ewallet/app/handler"
 	"github.com/Zainal21/my-ewallet/app/middleware"
@@ -53,24 +54,35 @@ func (rtr *router) Route() {
 
 	//define repositories
 	userRepo := repositories.NewUserRepositoryImpl(db)
-	tokenRepo := repositories.NewPersonalToken(db, &sanctum.Token{
+	tokenRepo := repositories.NewPersonalTokenImpl(db, &sanctum.Token{
 		Crypto: &cryptoservice.Crypto{},
 	}, userRepo)
+	transRepo := repositories.NewTransactionRepositoryImpl(db)
 
 	//define services
 	userSvc := service.NewUserServiceImpl(userRepo)
+	transSvc := service.NewTransactionServiceImpl(userRepo, transRepo)
 
 	//define middleware
 	basicMiddleware := middleware.NewAuthMiddleware()
+	jwtMiddleware := middleware.NewJwtMiddleware(tokenRepo)
+	signatureMiddleware := middleware.NewSignatureMiddleware(rtr.cfg)
 
 	//define provider
 
 	//define controller
 	getAllUser := user.NewGetAllUser(userSvc)
-	signIn := auth.NewSignIn(userSvc, tokenRepo, rtr.cfg)
+	signIn := auth.NewSignInImpl(userSvc, tokenRepo, rtr.cfg)
+	signOut := auth.NewSignOutImpl(userSvc, tokenRepo, rtr.cfg)
+	registration := auth.NewRegisterImpl(userSvc, tokenRepo, rtr.cfg)
+	getBalance := transaction.NewGetBalanceImpl(userSvc, transSvc, rtr.cfg)
+	getHistoryTransaction := transaction.NewHistoryTransactionImpl(userSvc, transSvc, rtr.cfg)
+	transferTransaction := transaction.NewTransferTransactionImpl(userSvc, transSvc, rtr.cfg)
+	topUpTransaction := transaction.NewTopUpTransactionImpl(userSvc, transSvc, rtr.cfg)
 
 	health := controller.NewGetHealth()
 	publicApi := rtr.fiber.Group("/api/v1")
+	WalletAPi := rtr.fiber.Group("/api/v1/wallet")
 
 	rtr.fiber.Get("/ping", rtr.handle(
 		handler.HttpRequest,
@@ -80,39 +92,57 @@ func (rtr *router) Route() {
 	publicApi.Post("/auth/login", rtr.handle(
 		handler.HttpRequest,
 		signIn,
+		// middleware
+		signatureMiddleware.SignatureVerify,
 	))
 
-	publicApi.Post("/auth/register", rtr.handle(
+	publicApi.Post("/auth/registration", rtr.handle(
 		handler.HttpRequest,
-		signIn,
+		registration,
+		signatureMiddleware.SignatureVerify,
 	))
 
 	publicApi.Post("/auth/logout", rtr.handle(
 		handler.HttpRequest,
-		signIn,
+		signOut,
+		// middleware
+		jwtMiddleware.JwtVerify,
+		signatureMiddleware.SignatureVerify,
 	))
 	// get balance
-	publicApi.Get("/balance", rtr.handle(
+	WalletAPi.Get("/balance", rtr.handle(
 		handler.HttpRequest,
-		signIn,
+		getBalance,
+		// middleware
+		jwtMiddleware.JwtVerify,
+		signatureMiddleware.SignatureVerify,
 	))
 
 	// top up deposit
-	publicApi.Post("/top-up-deposit", rtr.handle(
+	WalletAPi.Post("/top-up", rtr.handle(
 		handler.HttpRequest,
-		signIn,
+		topUpTransaction,
+		// middleware
+		jwtMiddleware.JwtVerify,
+		signatureMiddleware.SignatureVerify,
 	))
 
 	// transaction history
-	publicApi.Get("/transactions", rtr.handle(
+	WalletAPi.Get("/transactions", rtr.handle(
 		handler.HttpRequest,
-		signIn,
+		getHistoryTransaction,
+		// middleware
+		jwtMiddleware.JwtVerify,
+		signatureMiddleware.SignatureVerify,
 	))
 
 	//	transaction/transfer or payment
-	publicApi.Get("/transactions", rtr.handle(
+	WalletAPi.Post("/transfer", rtr.handle(
 		handler.HttpRequest,
-		signIn,
+		transferTransaction,
+		// middleware
+		jwtMiddleware.JwtVerify,
+		signatureMiddleware.SignatureVerify,
 	))
 	// example routes
 	publicApi.Get("/users", rtr.handle(

@@ -17,14 +17,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type SignInImpl struct {
+type signInImpl struct {
 	service           service.UserService
 	personalTokenRepo repositories.PersonalTokenRepository
 	cfg               *config.Config
 }
 
 // Serve implements contract.Controller.
-func (s *SignInImpl) Serve(xCtx appctx.Data) appctx.Response {
+func (s *signInImpl) Serve(xCtx appctx.Data) appctx.Response {
 	ctx := xCtx.FiberCtx
 	signInData := dtos.UserSignInRequestDto{
 		Email:    ctx.FormValue("email"),
@@ -68,24 +68,21 @@ func (s *SignInImpl) Serve(xCtx appctx.Data) appctx.Response {
 		return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 	}
 
-	return *appctx.NewResponse().
-		WithCode(fiber.StatusOK).
-		WithMessage("login success").
-		WithData(dtos.UserSignInResponseDto{
-			Id:          user.Id,
-			Name:        user.Name,
-			Email:       user.Email,
-			PhoneNumber: user.PhoneNumber,
-			Token:       token,
-		})
+	return helpers.SuccessResponse("Login Success", dtos.UserSignInResponseDto{
+		Id:          user.Id,
+		Name:        user.Name,
+		Email:       user.Email,
+		PhoneNumber: user.PhoneNumber,
+		Token:       token,
+	}, fiber.StatusOK)
 }
 
-func NewSignIn(
+func NewSignInImpl(
 	svc service.UserService,
 	pat repositories.PersonalTokenRepository,
 	cfg *config.Config,
 ) contract.Controller {
-	return &SignInImpl{
+	return &signInImpl{
 		service:           svc,
 		personalTokenRepo: pat,
 		cfg:               cfg,

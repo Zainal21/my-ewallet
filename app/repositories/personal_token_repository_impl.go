@@ -3,6 +3,7 @@ package repositories
 import (
 	"context"
 	"errors"
+	"log"
 	"strconv"
 	"time"
 
@@ -22,9 +23,7 @@ type personalTokenImpl struct {
 // DeleteByUserId implements PersonalTokenRepository.
 func (p *personalTokenImpl) DeleteByUserId(ctx context.Context, user_id string) error {
 	_query := `DELETE FROM personal_access_tokens WHERE tokenable_id = ?`
-	_, err := p.db.Exec(ctx, _query, user_id)
-
-	if err != nil {
+	if _, err := p.db.Exec(ctx, _query, user_id); err != nil {
 		return err
 	}
 
@@ -40,9 +39,7 @@ func (p *personalTokenImpl) Delete(ctx context.Context, token string) error {
 	}
 
 	_query := `DELETE FROM personal_access_tokens WHERE token = ? AND id = ?`
-	_, err = p.db.Exec(ctx, _query, hash, idStr)
-
-	if err != nil {
+	if _, err = p.db.Exec(ctx, _query, hash, idStr); err != nil {
 		return err
 	}
 
@@ -66,7 +63,7 @@ func (p *personalTokenImpl) Verify(ctx context.Context, token string) (*entity.U
 			"expires_at",
 			"tokenable_id",
 		},
-		"id = ? AND AND id = ? ",
+		"token = ? AND id = ? ",
 		1,
 		0,
 	)
@@ -87,8 +84,9 @@ func (p *personalTokenImpl) Verify(ctx context.Context, token string) (*entity.U
 		return nil, err
 	}
 
-	expirationTime, err := time.Parse("2006-01-02T15:04:05Z", expirationTimeStr)
+	expirationTime, err := time.Parse("2006-01-02 15:04:05", expirationTimeStr)
 	if err != nil {
+		log.Println(err.Error())
 		return nil, err
 	}
 
@@ -165,7 +163,7 @@ func (p *personalTokenImpl) Create(ctx context.Context, personalTokenDto *dtos.P
 	return tokenItem.GetPlainText(strconv.Itoa(personalAccessToken.Id)), nil
 }
 
-func NewPersonalToken(db mysql.Adapter, Token sanctum.TokenI, userRepo UserRepository) PersonalTokenRepository {
+func NewPersonalTokenImpl(db mysql.Adapter, Token sanctum.TokenI, userRepo UserRepository) PersonalTokenRepository {
 	return &personalTokenImpl{
 		db:             db,
 		Token:          Token,

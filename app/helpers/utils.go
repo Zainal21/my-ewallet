@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"html"
 	"math/rand"
@@ -9,6 +10,23 @@ import (
 	"strings"
 	"time"
 )
+
+func GetBearerTokenFromHeader(header string) (string, error) {
+	if header == "" {
+		return "", errors.New("not found authorization header")
+	}
+
+	token := strings.Split(header, " ")
+	if len(token) != 2 {
+		return "", errors.New("incorrectly formatted authorization header")
+	}
+
+	if token[0] != "Bearer" {
+		return "", errors.New("incorrectly formatted authorization header")
+	}
+
+	return token[1], nil
+}
 
 func ReplaceInjectionString(input string) string {
 	data := html.EscapeString(input)
@@ -213,5 +231,5 @@ func GenerateRefId(length int) string {
 	for i := range randomString {
 		randomString[i] = charSet[rand.Intn(len(charSet))]
 	}
-	return string(randomString)
+	return "REF_" + string(randomString)
 }

@@ -6,4 +6,8 @@ const (
 	ValidationMessage = "The given data was invalid"
 
 	UnauthorizedErrorMessage = "Unauthorized"
+
+	RequestNotValidMessage = "Invalid Request"
+
+	SignatureNotValidMessage = "SIgnature not valid"
 )

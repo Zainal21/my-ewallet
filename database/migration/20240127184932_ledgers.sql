@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `ledgers` (
   `current_deposit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `change_deposit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `final_deposit` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` Text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,

@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"sync"
 	"time"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 var (
@@ -17,7 +15,7 @@ var (
 // Response presentation contract object
 type Response struct {
 	Code      int         `json:"-"`
-	Status    bool        `json:"status"`
+	Status    string      `json:"status"`
 	Timestamp time.Time   `json:"timestamp,omitempty"`
 	Entity    string      `json:"entity,omitempty"`
 	State     string      `json:"state,omitempty"`
@@ -27,15 +25,15 @@ type Response struct {
 	Errors    interface{} `json:"errors,omitempty"`
 	lang      string      `json:"-"`
 	msgKey    string
+	// pagination response
+	CurrentPage int `json:"current_page,omitempty"`
+	LastPage    int `json:"last_page,omitempty"`
+	PerPage     int `json:"per_page,omitempty"`
+	Total       int `json:"total,omitempty"`
 }
 
 // WithCode setter response var name
 func (r *Response) WithCode(c int) *Response {
-	r.Status = true
-
-	if c > fiber.StatusCreated {
-		r.Status = false
-	}
 	r.Code = c
 	return r
 }
@@ -54,6 +52,11 @@ func (r *Response) WithEntity(e string) *Response {
 // WithState setter state response
 func (r *Response) WithState(s string) *Response {
 	r.State = s
+	return r
+}
+
+func (r *Response) WithStatus(s string) *Response {
+	r.Status = s
 	return r
 }
 

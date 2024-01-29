@@ -23,10 +23,12 @@ func CreateErrorResponse(code int, message string, errors *interface{}) appctx.R
 	if errors == nil {
 		return *appctx.NewResponse().
 			WithCode(code).
+			WithStatus("ERROR").
 			WithMessage(message)
 	}
 	return *appctx.NewResponse().
 		WithCode(code).
+		WithStatus("ERROR").
 		WithMessage(message).
 		WithError(&errors)
 }
