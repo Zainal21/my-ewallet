@@ -24,7 +24,7 @@ There is some dependencies that we used in this skeleton:
 - Transfer Deposit
 - Get History Transaction
 - Integrated with Payment Gateway Service
-- Consume API Service With NextJS
+- Consume API Service With NextJS (Coming Soon)
 
 ## Requirement
 
