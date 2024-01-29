@@ -15,6 +15,17 @@ There is some dependencies that we used in this skeleton:
 - [Goose Migration](https://github.com/pressly/goose) [Go Migration]
 - [Gobreaker](https://github.com/sony/gobreaker) [Go Circuit Breaker]
 
+## Features
+
+- Authentication
+- Signature JWT
+- Get Balance
+- Top Up Deposit
+- Transfer Deposit
+- Get History Transaction
+- Integrated with Payment Gateway Service
+- Consume API Service With NextJS
+
 ## Requirement
 
 - Golang version 1.21 or latest
