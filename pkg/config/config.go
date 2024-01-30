@@ -19,6 +19,7 @@ type Config struct {
 	AppConfig      `mapstructure:",squash"`
 	DatabaseConfig `mapstructure:",squash"`
 	CacheConfig    `mapstructure:",squash"`
+	MidtransConfig `mapstructure:",squash"`
 }
 
 func LoadAllConfigs() (*Config, error) {

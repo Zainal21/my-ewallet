@@ -10,6 +10,7 @@ import (
 	"github.com/Zainal21/my-ewallet/app/controller/user"
 	"github.com/Zainal21/my-ewallet/app/handler"
 	"github.com/Zainal21/my-ewallet/app/middleware"
+	"github.com/Zainal21/my-ewallet/app/provider"
 	"github.com/Zainal21/my-ewallet/app/repositories"
 	"github.com/Zainal21/my-ewallet/app/service"
 	cryptoservice "github.com/Zainal21/my-ewallet/app/utils/crypto"
@@ -69,6 +70,7 @@ func (rtr *router) Route() {
 	signatureMiddleware := middleware.NewSignatureMiddleware(rtr.cfg)
 
 	//define provider
+	midtransProvider := provider.NewMidtransProvider(rtr.cfg)
 
 	//define controller
 	getAllUser := user.NewGetAllUser(userSvc)
@@ -76,9 +78,10 @@ func (rtr *router) Route() {
 	signOut := auth.NewSignOutImpl(userSvc, tokenRepo, rtr.cfg)
 	registration := auth.NewRegisterImpl(userSvc, tokenRepo, rtr.cfg)
 	getBalance := transaction.NewGetBalanceImpl(userSvc, transSvc, rtr.cfg)
-	getHistoryTransaction := transaction.NewHistoryTransactionImpl(userSvc, transSvc, rtr.cfg)
+	getHistoryDeposit := transaction.NewHistoryDepositImpl(userSvc, transSvc, rtr.cfg)
 	transferTransaction := transaction.NewTransferTransactionImpl(userSvc, transSvc, rtr.cfg)
-	topUpTransaction := transaction.NewTopUpTransactionImpl(userSvc, transSvc, rtr.cfg)
+	topUpTransaction := transaction.NewTopUpTransactionImpl(userSvc, transSvc, midtransProvider, rtr.cfg)
+	midtransCallback := transaction.NewCallbackMidtransImpl(userSvc, transSvc, rtr.cfg)
 
 	health := controller.NewGetHealth()
 	publicApi := rtr.fiber.Group("/api/v1")
@@ -128,9 +131,17 @@ func (rtr *router) Route() {
 	))
 
 	// transaction history
-	WalletAPi.Get("/transactions", rtr.handle(
+	WalletAPi.Get("/deposit-history", rtr.handle(
 		handler.HttpRequest,
-		getHistoryTransaction,
+		getHistoryDeposit,
+		// middleware
+		jwtMiddleware.JwtVerify,
+		signatureMiddleware.SignatureVerify,
+	))
+	// get transaction history
+	WalletAPi.Get("/transactions-history", rtr.handle(
+		handler.HttpRequest,
+		getHistoryDeposit,
 		// middleware
 		jwtMiddleware.JwtVerify,
 		signatureMiddleware.SignatureVerify,
@@ -143,6 +154,11 @@ func (rtr *router) Route() {
 		// middleware
 		jwtMiddleware.JwtVerify,
 		signatureMiddleware.SignatureVerify,
+	))
+	// midtrans callback
+	WalletAPi.Post("/callback", rtr.handle(
+		handler.HttpRequest,
+		midtransCallback,
 	))
 	// example routes
 	publicApi.Get("/users", rtr.handle(

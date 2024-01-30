@@ -65,7 +65,7 @@ func (g *transferTransactionImpl) Serve(xCtx appctx.Data) appctx.Response {
 		return helpers.CreateErrorResponse(fiber.StatusUnprocessableEntity, response.Message, &response.Errors)
 	}
 
-	err = g.transSrv.CreateTransaction(ctx.Context(), dtos.LedgerDto{
+	err = g.transSrv.CreateDepositLog(ctx.Context(), dtos.LedgerDto{
 		UserID:         transferData.UserId,
 		RefID:          transferData.RefId,
 		Type:           transferData.Type,

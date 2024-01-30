@@ -17,14 +17,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type historyTransactionImpl struct {
+type historyDepositImpl struct {
 	service  service.UserService
 	transSrv service.TransactionService
 	cfg      *config.Config
 }
 
 // Serve implements contract.Controller.
-func (g *historyTransactionImpl) Serve(xCtx appctx.Data) appctx.Response {
+func (g *historyDepositImpl) Serve(xCtx appctx.Data) appctx.Response {
 	ctx := xCtx.FiberCtx
 	user, ok := xCtx.FiberCtx.Locals("user").(*entity.User)
 
@@ -62,12 +62,12 @@ func (g *historyTransactionImpl) Serve(xCtx appctx.Data) appctx.Response {
 	return *helpers.MapPaginationResponseToApiResponse(paginate)
 }
 
-func NewHistoryTransactionImpl(
+func NewHistoryDepositImpl(
 	service service.UserService,
 	transSrv service.TransactionService,
 	cfg *config.Config,
 ) contract.Controller {
-	return &historyTransactionImpl{
+	return &historyDepositImpl{
 		service:  service,
 		transSrv: transSrv,
 		cfg:      cfg,

@@ -1,0 +1,6 @@
+{
+  "midtrans_base_url": "midtrans_base_url",
+  "midtrans_secret_key": "midtrans_secret_key",
+  "midtrans_client_key": "midtrans_client_key",
+  "midtrans_callback": "midtrans_callback"
+}

@@ -21,11 +21,17 @@ type TransactionRepository interface {
 	// get spesific user by field name
 	GetBalance(ctx context.Context, fieldName string, value string) (*entity.Ledger, error)
 	// get transaction history
-	GetTransactionHistory(ctx context.Context, payload dtos.TransactionRequestDto) (*[]entity.Ledger, int, error)
+	GetDepositHistory(ctx context.Context, payload dtos.TransactionRequestDto) (*[]entity.Ledger, int, error)
 	// begin database transaction
 	BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error)
-	// create transaction (topup, transfer/payment)
-	CreateTransaction(ctx context.Context, payload dtos.LedgerDto) error
+	// create deposit (topup, transfer/payment)
+	CreateDepositLog(ctx context.Context, payload dtos.LedgerDto) error
+	// create transaction log
+	CreateTransactionLog(ctx context.Context, payload dtos.TransactionDto) error
+	// update status transaction log
+	UpdateStatusTransactionLog(ctx context.Context, status, orderId string) error
+	// get transcation by fieldname
+	GetTransactionByFieldName(ctx context.Context, fieldName string, value string) (*entity.Transaction, error)
 }
 
 type PersonalTokenRepository interface {

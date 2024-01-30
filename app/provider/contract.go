@@ -28,3 +28,7 @@ type CircuitBreaker interface {
 type Example interface {
 	GetTodos(ctx context.Context) ([]byte, error)
 }
+
+type Midtrans interface {
+	CreateCharge(ctx context.Context, payload map[string]interface{}) ([]byte, error)
+}

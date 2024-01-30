@@ -18,6 +18,18 @@ type transactionRepositoryImpl struct {
 	db mysql.Adapter
 }
 
+// UpdateStatusTransactionLog implements TransactionRepository.
+func (r *transactionRepositoryImpl) UpdateStatusTransactionLog(ctx context.Context, status, orderId string) error {
+	_query := "UPDATE transactions SET status  = ? WHERE order_id = ?"
+	_, err := r.db.Exec(ctx, _query, status, orderId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 const (
 	pageSize   = 0
 	dateFormat = "2006-01-02"
@@ -28,8 +40,49 @@ func (t *transactionRepositoryImpl) BeginTx(ctx context.Context, opts *sql.TxOpt
 	return t.db.BeginTx(ctx, opts)
 }
 
-// CreateTransaction implements TransactionRepository.
-func (t *transactionRepositoryImpl) CreateTransaction(ctx context.Context, payload dtos.LedgerDto) error {
+// CreateDepositLog implements TransactionRepository.
+func (t *transactionRepositoryImpl) CreateTransactionLog(ctx context.Context, payload dtos.TransactionDto) error {
+	timeStr := helpers.GetTimeStrNow()
+	Uuid := uuid.NewString()
+
+	if _, err := t.db.Exec(ctx,
+		`INSERT INTO transactions 
+			(
+				id, 
+				order_id, 
+				ref_id, 
+				user_id,
+				type, 
+				gross_amount, 
+				piece, 
+				amount, 
+				note, 
+				status, 
+				created_at, 
+				updated_at
+			) 
+		VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
+		Uuid,
+		payload.OrderID,
+		payload.RefID,
+		payload.UserID,
+		payload.Type,
+		payload.GrossAmount,
+		payload.Piece,
+		payload.Amount,
+		payload.Note,
+		payload.Status,
+		&timeStr,
+		&timeStr,
+	); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// CreateDepositLog implements TransactionRepository.
+func (t *transactionRepositoryImpl) CreateDepositLog(ctx context.Context, payload dtos.LedgerDto) error {
 	timeStr := helpers.GetTimeStrNow()
 	Uuid := uuid.NewString()
 
@@ -63,6 +116,47 @@ func (t *transactionRepositoryImpl) CreateTransaction(ctx context.Context, paylo
 	}
 
 	return nil
+}
+
+// GetBalance implements TransactionRepository.
+func (t *transactionRepositoryImpl) GetTransactionByFieldName(ctx context.Context, fieldName string, value string) (*entity.Transaction, error) {
+	transQuery := query.SelectQuery(
+		"transactions",
+		[]string{
+			"id",
+			"user_id",
+			"ref_id",
+			"type",
+			"gross_amount",
+			"amount",
+			"note",
+			"created_at",
+			"updated_at",
+		},
+		fieldName+" = ? ORDER BY created_at DESC",
+		1,
+		0,
+	)
+
+	var result entity.Transaction
+
+	row := t.db.QueryRowX(ctx, transQuery, value)
+
+	if err := row.Scan(
+		&result.ID,
+		&result.UserID,
+		&result.RefID,
+		&result.Type,
+		&result.GrossAmount,
+		&result.Amount,
+		&result.Note,
+		&result.CreatedAt,
+		&result.UpdatedAt,
+	); err != nil {
+		return nil, err
+	}
+
+	return &result, nil
 }
 
 // GetBalance implements TransactionRepository.
@@ -108,11 +202,10 @@ func (t *transactionRepositoryImpl) GetBalance(ctx context.Context, fieldName st
 	}
 
 	return &result, nil
-
 }
 
-// GetTransactionHistory implements TransactionRepository.
-func (t *transactionRepositoryImpl) GetTransactionHistory(ctx context.Context, payload dtos.TransactionRequestDto) (*[]entity.Ledger, int, error) {
+// GetDepositHistory implements TransactionRepository.
+func (t *transactionRepositoryImpl) GetDepositHistory(ctx context.Context, payload dtos.TransactionRequestDto) (*[]entity.Ledger, int, error) {
 	offset := (payload.Page - 1) * pageSize
 
 	countQuery := "SELECT 1 as record FROM ledgers"
@@ -135,8 +228,9 @@ func (t *transactionRepositoryImpl) GetTransactionHistory(ctx context.Context, p
 			L.created_at, 
 			L.updated_at
 		FROM ledgers as L
-		JOIN users AS U
-		ON u.id = L.user_id WHERE user_id = ?`
+		JOIN transactions AS T
+			ON L.id = T.transaction_id
+		WHERE user_id = ?`
 
 	transQuery = t.searchLogReportFilter(transQuery, payload.Search)
 	transQuery = t.dateFilterLogReport(transQuery, payload.DateFrom, payload.DateTo)
