@@ -75,8 +75,7 @@ func (g *transferTransactionImpl) Serve(xCtx appctx.Data) appctx.Response {
 		Note:           "TRANSFER with REF ID : " + transferData.RefId + " TO " + transferData.AccountDestination,
 	})
 
-	err = helpers.HandleError(err)
-	if err != nil {
+	if err = helpers.HandleError(err); err != nil {
 		return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 	}
 

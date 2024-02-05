@@ -92,20 +92,20 @@ func (rtr *router) Route() {
 		health,
 	))
 	// authentication routes
-	publicApi.Post("/auth/login", rtr.handle(
+	WalletAPi.Post("/auth/login", rtr.handle(
 		handler.HttpRequest,
 		signIn,
 		// middleware
 		signatureMiddleware.SignatureVerify,
 	))
 
-	publicApi.Post("/auth/registration", rtr.handle(
+	WalletAPi.Post("/auth/registration", rtr.handle(
 		handler.HttpRequest,
 		registration,
 		signatureMiddleware.SignatureVerify,
 	))
 
-	publicApi.Post("/auth/logout", rtr.handle(
+	WalletAPi.Post("/auth/logout", rtr.handle(
 		handler.HttpRequest,
 		signOut,
 		// middleware

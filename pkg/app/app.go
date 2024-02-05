@@ -30,11 +30,13 @@ func InitializeApp(cfg *config.Config) {
 			AllowOrigins: strings.Join([]string{
 				"http://*",
 				"https://*",
+				"*",
 			}, ","),
 			AllowHeaders: strings.Join([]string{
 				"Origin",
 				"Content-Type",
 				"Accept",
+				"X-Signature",
 			}, ","),
 			AllowMethods: strings.Join([]string{
 				fiber.MethodGet,

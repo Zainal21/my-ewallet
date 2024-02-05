@@ -50,6 +50,7 @@ func (g *callbackMidtransImpl) Serve(xCtx appctx.Data) appctx.Response {
 		logger.Error(fmt.Sprintf("Body Parser Request Callback Data Request : %v", err))
 		return helpers.CreateErrorResponse(fiber.StatusBadRequest, "INVALID PAYLOAD", nil)
 	}
+
 	logger.Info(fmt.Sprintf("body callback request %v", body))
 
 	var (
@@ -77,8 +78,7 @@ func (g *callbackMidtransImpl) Serve(xCtx appctx.Data) appctx.Response {
 	}
 
 	err = g.transSrv.UpdateStatusTransactionLog(ctx.Context(), status, body.OrderID)
-	err = helpers.HandleError(err)
-	if err != nil {
+	if err = helpers.HandleError(err); err != nil {
 		return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 	}
 
@@ -86,8 +86,7 @@ func (g *callbackMidtransImpl) Serve(xCtx appctx.Data) appctx.Response {
 		var currentBalance int
 
 		balance, err := g.transSrv.GetBalance(ctx.Context(), "user_id", trns.UserID)
-		err = helpers.HandleError(err)
-		if err != nil {
+		if err = helpers.HandleError(err); err != nil {
 			return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 		}
 
@@ -96,8 +95,7 @@ func (g *callbackMidtransImpl) Serve(xCtx appctx.Data) appctx.Response {
 		}
 
 		grossAmount, err := strconv.ParseFloat(body.GrossAmount, 64)
-		err = helpers.HandleError(err)
-		if err != nil {
+		if err = helpers.HandleError(err); err != nil {
 			return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 		}
 
@@ -111,8 +109,8 @@ func (g *callbackMidtransImpl) Serve(xCtx appctx.Data) appctx.Response {
 			FinalDeposit:   currentBalance + int(grossAmount),
 			Note:           "TOP UP with REF ID : " + body.ReferenceID,
 		})
-		err = helpers.HandleError(err)
-		if err != nil {
+
+		if err = helpers.HandleError(err); err != nil {
 			return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 		}
 	}

@@ -28,14 +28,12 @@ func (g *getBalanceImpl) Serve(xCtx appctx.Data) appctx.Response {
 		return helpers.CreateErrorResponse(fiber.StatusUnauthorized, consts.UnauthorizedErrorMessage, nil)
 	}
 
-	currentBalance := 0
-
 	balance, err := g.transSrv.GetBalance(ctx.Context(), "user_id", user.Id)
-
-	err = helpers.HandleError(err)
-	if err != nil {
+	if err = helpers.HandleError(err); err != nil {
 		return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 	}
+
+	currentBalance := 0
 
 	if balance != nil {
 		currentBalance, _ = strconv.Atoi(balance.FinalDeposit)

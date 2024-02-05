@@ -89,8 +89,7 @@ func (g *topUpTransactionImpl) Serve(xCtx appctx.Data) appctx.Response {
 		Amount:      strconv.Itoa(topupAmount - 150),
 	})
 
-	err = helpers.HandleError(err)
-	if err != nil {
+	if err = helpers.HandleError(err); err != nil {
 		logger.Error(fmt.Sprintf("Error Create transaction log: %v", err.Error()))
 		return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 	}

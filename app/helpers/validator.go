@@ -22,8 +22,8 @@ func NewValidationErrorResponse(errorMessage string, fieldErrors interface{}) Va
 func CreateErrorResponse(code int, message string, errors *interface{}) appctx.Response {
 	if errors == nil {
 		return *appctx.NewResponse().
-			WithCode(code).
 			WithStatus("ERROR").
+			WithCode(code).
 			WithMessage(message)
 	}
 	return *appctx.NewResponse().

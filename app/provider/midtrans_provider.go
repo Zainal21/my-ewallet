@@ -30,7 +30,6 @@ func (e *midtrans) CreateCharge(ctx context.Context, payload map[string]interfac
 }
 
 func (e *midtrans) makeHTTPRequest(ctx context.Context, payload interface{}, url, method string) ([]byte, error) {
-	log.Println("callback url", e.cfg.MidtransCallbackUrl)
 	reqOption := httpclient.RequestOptions{
 		Payload: payload,
 		URL:     url,

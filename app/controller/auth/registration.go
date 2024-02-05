@@ -34,9 +34,7 @@ func (s *registerImpl) Serve(xCtx appctx.Data) appctx.Response {
 	errors := golvalidator.ValidateStructs(registrationData, consts.Localization)
 
 	user, err := s.service.GetUserByFieldName(ctx.Context(), "email", registrationData.Email)
-
-	err = helpers.HandleError(err)
-	if err != nil {
+	if err = helpers.HandleError(err); err != nil {
 		return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 	}
 
@@ -50,9 +48,7 @@ func (s *registerImpl) Serve(xCtx appctx.Data) appctx.Response {
 	}
 
 	err = s.service.CreateUser(ctx.Context(), registrationData)
-
-	err = helpers.HandleError(err)
-	if err != nil {
+	if err = helpers.HandleError(err); err != nil {
 		return helpers.CreateErrorResponse(fiber.StatusInternalServerError, consts.ServerErrorMessage, nil)
 	}
 
