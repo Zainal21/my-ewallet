@@ -7,7 +7,6 @@ import (
 	"github.com/Zainal21/my-ewallet/app/controller/auth"
 	"github.com/Zainal21/my-ewallet/app/controller/contract"
 	"github.com/Zainal21/my-ewallet/app/controller/transaction"
-	"github.com/Zainal21/my-ewallet/app/controller/user"
 	"github.com/Zainal21/my-ewallet/app/handler"
 	"github.com/Zainal21/my-ewallet/app/middleware"
 	"github.com/Zainal21/my-ewallet/app/provider"
@@ -65,7 +64,6 @@ func (rtr *router) Route() {
 	transSvc := service.NewTransactionServiceImpl(userRepo, transRepo)
 
 	//define middleware
-	basicMiddleware := middleware.NewAuthMiddleware()
 	jwtMiddleware := middleware.NewJwtMiddleware(tokenRepo)
 	signatureMiddleware := middleware.NewSignatureMiddleware(rtr.cfg)
 
@@ -73,7 +71,6 @@ func (rtr *router) Route() {
 	midtransProvider := provider.NewMidtransProvider(rtr.cfg)
 
 	//define controller
-	getAllUser := user.NewGetAllUser(userSvc)
 	signIn := auth.NewSignInImpl(userSvc, tokenRepo, rtr.cfg)
 	signOut := auth.NewSignOutImpl(userSvc, tokenRepo, rtr.cfg)
 	registration := auth.NewRegisterImpl(userSvc, tokenRepo, rtr.cfg)
@@ -84,7 +81,6 @@ func (rtr *router) Route() {
 	midtransCallback := transaction.NewCallbackMidtransImpl(userSvc, transSvc, rtr.cfg)
 
 	health := controller.NewGetHealth()
-	publicApi := rtr.fiber.Group("/api/v1")
 	WalletAPi := rtr.fiber.Group("/api/v1/wallet")
 
 	rtr.fiber.Get("/ping", rtr.handle(
@@ -159,13 +155,6 @@ func (rtr *router) Route() {
 	WalletAPi.Post("/callback", rtr.handle(
 		handler.HttpRequest,
 		midtransCallback,
-	))
-	// example routes
-	publicApi.Get("/users", rtr.handle(
-		handler.HttpRequest,
-		getAllUser,
-		//middleware
-		basicMiddleware.Authenticate,
 	))
 }
 
